@@ -1,8 +1,8 @@
 'use strict';
 
-var response = require('./src/res');
-var connection = require('./src/koneksi');
+var response = require('./res');
+var connection = require('./koneksi');
 
 exports.index = function(req, res){
-    response.ok('Aplikasi REST API berjalan')
+    response.ok('Aplikasi REST API berjalan', res)
 };
