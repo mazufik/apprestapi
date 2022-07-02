@@ -11,7 +11,7 @@ exports.index = function(req, res){
 exports.tampilmahasiswa = function(req,res){
     connection.query('select * from mahasiswa', function(error, rows, fields){
         if(error){
-            connection.log(error);
+            console.log(error);
         }else {
             response.ok(rows, res)
         }
@@ -57,6 +57,19 @@ exports.ubahMahasiswa = function(req, res){
 
     connection.query('UPDATE mahasiswa SET nim=?, nama=?, jurusan=? WHERE id_mahasiswa=?',
     [nim, nama, jurusan, id],
+    function(error, rows, fields){
+        if(error){
+            console.log(error);
+        }else {
+            response.ok('Berhasil mengubah data!', res);
+        }
+    });
+};
+
+//menghapus data mahasiswa
+exports.hapusMahasiswa = function(req, res){
+    let id = req.body.id_mahasiswa;
+    connection.query('DELETE FROM mahasiswa WHERE id_mahasiswa=?', [id],
     function(error, rows, fields){
         if(error){
             console.log(error);
