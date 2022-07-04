@@ -1,14 +1,14 @@
-const connection = require('../koneksi');
+const connection = require('../src/koneksi');
 const mysql = require('mysql');
 const md5 = require('md5');
-const response = require('../res');
+const response = require('../src/res');
 const jwt = require('jsonwebtoken');
 const config = require('../config/secret');
 const ip = require('ip');
 
 //controller untuk register
 exports.registrasi = function(req, res){
-    const post = {
+    let post = {
         username: req.body.username,
         email: req.body.email,
         password: md5(req.body.password),
@@ -16,18 +16,18 @@ exports.registrasi = function(req, res){
         tanggal_daftar: new Date()
     }
 
-    const query = 'SELECT email FROM ?? WHERE ??';
-    const table = ['user', 'email', post.email];
+    let query = 'SELECT email FROM ?? WHERE ??';
+    let table = ['user', 'email', post.email];
 
-    query = mysql.format(query.table);
+    query = mysql.format(query,table);
 
     connection.query(query, function(error, rows){
         if(error){
             console.log(error);
         }else {
             if(rows.length == 0){
-                const query = 'INSERT INTO ?? SET ?';
-                const table = ['user'];
+                let query = 'INSERT INTO ?? SET ?';
+                let table = ['user'];
                 query = mysql.format(query, table);
                 connection.query(query, post, function(error, rows){
                     if(error){
@@ -40,5 +40,5 @@ exports.registrasi = function(req, res){
                 response.ok('Email sudah terdaftar');
             }
         }
-    })
+    });
 }
